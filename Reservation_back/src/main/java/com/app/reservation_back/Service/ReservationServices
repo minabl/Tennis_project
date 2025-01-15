@@ -1,0 +1,71 @@
+package com.app.reservation_back.Service;
+
+import com.app.reservation_back.Repository.ReservationRepository;
+import com.app.reservation_back.Repository.TerrainRepository;
+import com.app.reservation_back.entites.Reservation;
+import com.app.reservation_back.entites.Terrain;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ReservationServices implements IServiceReservation{
+    private final ReservationRepository reservationRepository;
+    private final TerrainRepository terrainRepository;
+
+    @Override
+    public Reservation createRsv(Reservation rsv)  throws Exception {
+        // Validation des disponibilités
+        List<Reservation> existingReservations = reservationRepository.findByDateAndTerrain(
+                reservation.getDate(), reservation.getTerrain()
+        );
+        if (!existingReservations.isEmpty()) {
+            throw new Exception("Le terrain est déjà réservé pour cette période.");
+        }
+
+        // Validation de la durée maximale de réservation
+        long reservationHours = Duration.between(reservation.getHeure(), reservation.getHeure().plusHours(1)).toHours();
+        if (reservationHours > 4) {
+            throw new Exception("La durée maximale de réservation est de 4 heures.");
+        }
+
+        return reservationRepository.save(reservation);
+    }
+
+    public List<Terrain> getAvailableTerrains(LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<Terrain> allTerrains = terrainRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findByDateAndTimeRange(date, startTime, endTime);
+        return allTerrains.stream()
+                .filter(terrain -> reservations.stream()
+                        .noneMatch(res -> res.getTerrain().equals(terrain)))
+                .collect(Collectors.toList());
+    }
+    }
+
+        @Override
+        public Reservation findRsvById(int id) {
+            return reservationRepository.findById(id).get();
+        }
+
+    @Override
+    public List<Reservation> findAllRsvs() {
+        return reservationRepository.findAll();
+    }
+
+        @Override
+        public Reservation updateRsv(Reservation rsv) {
+            return reservationRepository.save(rsv);
+        }
+
+        @Override
+        public void deleteRsv(int id) {
+            reservationRepository.deleteById(id);
+
+        }
+}

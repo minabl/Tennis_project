@@ -1,0 +1,53 @@
+
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+
+    <div class="container">
+        <a class="navbar-brand" routerLink="/privee/home">Tennis<span>.</span></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                <li class="nav-item" [class.active]="currentRoute === '/home'">
+                    <a class="nav-link" routerLink="/home">Home</a>
+                </li>
+            
+                
+                <li class="nav-item" [class.active]="currentRoute === '/terrains'">
+                    <a class="nav-link" routerLink="/privee/terrains">Terrain</a>
+                </li>
+                <li class="nav-item" *ngIf="state.authState.authorities.includes('ROLE_ADMIN')"
+                    [class.active]="currentRoute === '/privee/dashbord'">
+                    <a class="nav-link" routerLink="/privee/dashbord">dashbord</a>
+                </li>
+                <li class="nav-item" *ngIf="state.authState.authorities.includes('ROLE_ADMIN')" [class.active]="currentRoute === '/privee/reservations'">
+                    <a class="nav-link" routerLink="/privee/reservations">Reservations</a>
+                </li>
+                <li class="nav-item" *ngIf="state.authState.authorities.includes('ROLE_ADMIN')" [class.active]="currentRoute === '/privee/product'">
+                    <a class="nav-link" routerLink="/privee/product">joueur</a>
+                </li>
+                
+            </ul>
+        
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <li>
+                    <a class="nav-link" routerLink="/login" [class.active]="currentRoute === '/login'">
+                        <i class="bi bi-person"></i>
+                    </a>
+                </li>
+               
+                <li *ngIf="state.authState.isLoggedIn === true">
+                    <button class="btn-primary active" (click)="logout()">Logout</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+        
+</nav>   
+
+
+
+

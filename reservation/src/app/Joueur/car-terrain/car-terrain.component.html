@@ -1,0 +1,15 @@
+ 
+  
+  <div class="product-item" >
+    <a class="product-item" routerLink="/privee/details/{{data.id}}"> 
+        <img src="http://localhost:8080/photos/{{data.photo}}" class="img-fluid product-thumbnail" >
+    </a>
+    <h3 class="product-title">{{data.nom}}</h3>
+    
+    <strong class="product-price"><i class="bi bi-geo-alt"></i>{{data.localisation}} </strong><br>
+    <button class="btn btn-secondary" (click)="reserver()">Réserver</button>
+
+   
+    
+   
+</div>

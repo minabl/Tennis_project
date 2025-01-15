@@ -1,0 +1,74 @@
+
+
+<div class='dashboard-app'>
+<div class='dashboard-content'>
+  <div class='container'>
+<form #reservationForm="ngForm" class="p-5 border rounded bg-light">
+  <h4 class="mb-4">Réserver un terrain</h4>
+
+  <div class="mb-3">
+    <label for="courtName" class="form-label fw-bold">Terrain :</label>
+    <select
+      id="courtName"
+      class="form-select"
+      [(ngModel)]="reservation.terrainId"
+      name="courtName"
+      required
+    >
+      <option value="" disabled selected>Sélectionnez un terrain</option>
+      <option *ngFor="let terrain of terrains" [ngValue]="terrain.id">
+        {{ terrain.nom }} ({{ terrain.localisation }})
+      </option>
+    </select>
+    <div *ngIf="!reservation.terrainId" class="form-text text-danger mt-1">
+      Veuillez sélectionner un terrain.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="debutReservation" class="form-label fw-bold">
+      Début de la réservation :
+    </label>
+    <input
+      id="debutReservation"
+      type="datetime-local"
+      class="form-control"
+      [(ngModel)]="reservation.debutReservation"
+      name="debutReservation"
+      (change)="calculateEndDate()"
+      required
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="duree" class="form-label fw-bold">Durée :</label>
+    <select
+      id="duree"
+      class="form-select"
+      [(ngModel)]="reservation.duree"
+      name="duree"
+      (change)="calculateEndDate()"
+      required
+    >
+      <option value="" disabled selected>Sélectionnez une durée</option>
+      <option
+        *ngFor="let hour of dureeOptions"
+        [value]="hour"
+      >
+        {{ hour }} heure{{ hour > 1 ? 's' : '' }}
+      </option>
+    </select>
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-primary w-100"
+    (click)="submitReservation()"
+    [disabled]="!reservationForm.form.valid || !reservation.terrainId"
+  >
+    <i class="bi bi-calendar-check"></i> confirmation
+  </button>
+</form>
+</div>
+</div>
+</div>

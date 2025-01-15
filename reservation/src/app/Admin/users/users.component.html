@@ -1,0 +1,64 @@
+<!-- Table des joueurs -->
+<div class='dashboard-app'>
+    <div class='dashboard-content'>
+      <div class='container'>
+        <div class='card-header'>
+          <h1>Tous les Joueurs</h1>
+        </div>
+        <div class='card-body'>
+          <div class="d-flex justify-content-between mb-3">
+            <div class="container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="product-name">username</th>
+                    <th class="product-price">email</th>
+                    <th class="product-quantity">enabled</th>
+                    <th class="product-remove">Supprimer</th>
+                    <th class="product-remove">edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of Joueurs; let index = index">
+                    <td class="product-name">
+                      <h2 class="h5 text-black">{{item.username}}</h2>
+                    </td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.id}}</td>
+                    <td>{{item.enabled ? 'Activé' : 'Désactivé'}}</td>
+                    <td class="border-0 align-middle"> 
+                      <button class="btn btn-black btn-sm" (click)="supprimer(item.id)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                    <td class="border-0 align-middle"> 
+                      <button (click)="editJoueur(item)" class="btn btn-yellow">
+                        <i class="bi bi-pencil-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+  
+              <!-- Formulaire de modification de l'état 'enabled' -->
+              <div *ngIf="isEditing">
+                <h3>Modifier le statut du joueur : {{selectedJoueur.username}}</h3>
+                <form (ngSubmit)="submitEdit()">
+                  <div class="mb-3">
+                    <label for="enabled" class="form-label">Statut</label>
+                    <select class="form-select" [(ngModel)]="selectedJoueur.enabled" name="enabled" id="enabled">
+                      <option [ngValue]="true">Activé</option>
+                      <option [ngValue]="false">Désactivé</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Enregistrer</button>
+                  <button type="button" (click)="cancelEdit()" class="btn btn-secondary">Annuler</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>                     
+      </div>
+    </div>
+  </div>
+  
